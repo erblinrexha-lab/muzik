@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Muzik App</title>
   
-  <!-- Apple-Style Icons (Ionicons) -->
+  <!-- Apple-Style Icons -->
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <!-- YouTube API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
 
   <style>
     * {
@@ -27,7 +29,6 @@
       overflow: hidden;
     }
 
-    /* Main Container & Layout */
     main {
       flex: 1;
       overflow-y: auto;
@@ -38,17 +39,14 @@
       display: none;
       animation: iosSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
-
-    .page.active {
-      display: block;
-    }
+    .page.active { display: block; }
 
     @keyframes iosSlideIn {
       from { opacity: 0; transform: scale(0.98) translateY(8px); }
       to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    /* Typography & Headers */
+    /* General Typography */
     .header-title {
       font-size: 34px;
       font-weight: 800;
@@ -58,218 +56,131 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+    .section-title { font-size: 20px; font-weight: 700; margin: 28px 0 14px 0; color: #FFFFFF; }
+    .subtitle { color: #8E8E93; font-size: 14px; margin-top: -12px; margin-bottom: 20px; }
 
-    .section-title {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.4px;
-      margin: 28px 0 14px 0;
-      color: #FFFFFF;
-    }
-
-    .subtitle {
-      color: #8E8E93;
-      font-size: 14px;
-      margin-top: -12px;
-      margin-bottom: 20px;
-    }
-
-    /* Search Bar with Glow Effect */
-    .search-box {
-      position: relative;
-      margin-bottom: 24px;
-    }
-
+    /* Explore Cards */
+    .search-box { position: relative; margin-bottom: 24px; }
     .search-input {
-      width: 100%;
-      background: rgba(28, 28, 30, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 16px;
-      padding: 14px 18px 14px 44px;
-      color: #FFF;
-      font-size: 16px;
-      outline: none;
-      backdrop-filter: blur(10px);
-      transition: all 0.25s ease;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      width: 100%; background: rgba(28, 28, 30, 0.8); border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px; padding: 14px 18px 14px 44px; color: #FFF; font-size: 16px; outline: none;
     }
+    .search-input:focus { border-color: #0A84FF; box-shadow: 0 0 20px rgba(10, 132, 255, 0.3); }
+    .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 20px; color: #8E8E93; }
 
-    .search-input:focus {
-      border-color: #0A84FF;
-      box-shadow: 0 0 20px rgba(10, 132, 255, 0.3);
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 20px;
-      color: #8E8E93;
-      display: flex;
-      align-items: center;
-    }
-
-    /* Apple Cards System */
     .card {
-      background: rgba(28, 28, 30, 0.65);
-      border-radius: 18px;
-      padding: 14px 16px;
-      margin-bottom: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(20px);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: transform 0.2s ease, background 0.2s ease;
+      background: rgba(28, 28, 30, 0.65); border-radius: 18px; padding: 14px 16px; margin-bottom: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; justify-content: space-between;
     }
-
-    .card:active {
-      transform: scale(0.98);
-      background: rgba(44, 44, 46, 0.8);
-    }
-
-    .media-card {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      width: 100%;
-    }
-
+    .media-card { display: flex; align-items: center; gap: 14px; width: 100%; }
     .thumb-box {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #1C1C1E, #2C2C2E);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #FFFFFF;
-      font-size: 26px;
-      flex-shrink: 0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      position: relative;
-      overflow: hidden;
+      width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, #1C1C1E, #2C2C2E);
+      display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-size: 26px; flex-shrink: 0;
     }
+    .media-info { flex: 1; overflow: hidden; }
+    .media-title { font-size: 16px; font-weight: 600; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .media-artist { font-size: 13px; color: #8E8E93; margin-top: 3px; }
 
-    .media-info {
-      flex: 1;
-      overflow: hidden;
-    }
-
-    .media-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: #FFFFFF;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .media-artist {
-      font-size: 13px;
-      color: #8E8E93;
-      margin-top: 3px;
-    }
-
-    .btn-group {
-      display: flex;
-      gap: 8px;
-    }
-
+    .btn-group { display: flex; gap: 8px; }
     .btn-pill {
-      background: rgba(10, 132, 255, 0.15);
-      color: #0A84FF;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      backdrop-filter: blur(10px);
-      transition: background 0.2s, transform 0.1s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
+      background: rgba(10, 132, 255, 0.15); color: #0A84FF; border: none; padding: 8px 16px;
+      border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer;
+      display: flex; align-items: center; gap: 4px;
     }
 
-    .btn-pill ion-icon {
-      font-size: 16px;
-    }
-
-    .btn-pill:active {
-      background: rgba(10, 132, 255, 0.35);
-      transform: scale(0.95);
-    }
-
-    /* Embedded Video Player Frame */
-    .player-wrapper {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #1C1C1E;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+    /* =========================================
+       CUSTOM HOME-MADE VIDEO PLAYER UI
+       ========================================= */
+    
+    .now-playing-header {
+      text-align: center;
       margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
-    iframe {
+    .video-block {
+      width: 100vw; /* Forces full width of screen */
+      margin-left: -20px; /* Pulls it outside the main padding */
+      aspect-ratio: 16 / 9;
+      background: #000;
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    /* Disables all native YouTube clicks */
+    #yt-player {
       width: 100%;
       height: 100%;
-      border: none;
+      pointer-events: none;
     }
 
-    /* Glassmorphic Tab Bar */
-    nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 88px;
-      background: rgba(20, 20, 22, 0.75);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border-top: 0.5px solid rgba(255, 255, 255, 0.12);
-      display: flex;
-      justify-content: space-around;
-      align-items: flex-start;
-      padding-top: 10px;
-      z-index: 100;
+    /* The invisible layer capturing swipes & taps */
+    #gesture-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 10;
     }
 
-    .nav-btn {
+    /* Custom Progress Bar */
+    .progress-container {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 4px;
+      margin-bottom: 24px;
+    }
+
+    .time-labels {
+      display: flex;
+      justify-content: space-between;
       color: #8E8E93;
-      font-size: 10px;
-      font-weight: 500;
-      background: none;
-      border: none;
-      cursor: pointer;
-      width: 20%;
-      transition: color 0.2s ease;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 8px;
     }
 
-    .nav-btn ion-icon {
-      font-size: 26px;
-      margin-bottom: 2px;
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: transparent;
+    }
+    input[type=range]:focus { outline: none; }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%; height: 6px; cursor: pointer;
+      background: rgba(255, 255, 255, 0.2); border-radius: 3px;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      height: 16px; width: 16px; border-radius: 50%;
+      background: #FFFFFF; cursor: pointer; -webkit-appearance: none;
+      margin-top: -5px; box-shadow: 0 2px 6px rgba(0,0,0,0.5);
     }
 
-    .nav-btn.active {
-      color: #0A84FF;
+    /* Custom Media Controls */
+    .media-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
     }
 
-    .nav-btn.active ion-icon {
-      transform: scale(1.1);
+    .ctrl-btn {
+      background: none; border: none; color: #FFFFFF; font-size: 28px; cursor: pointer;
+      transition: opacity 0.2s;
     }
+    .ctrl-btn:active { opacity: 0.5; }
+    .play-pause-btn { font-size: 44px; }
+
+    /* Bottom Nav */
+    nav {
+      position: fixed; bottom: 0; left: 0; right: 0; height: 88px;
+      background: rgba(20, 20, 22, 0.75); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+      border-top: 0.5px solid rgba(255, 255, 255, 0.12);
+      display: flex; justify-content: space-around; align-items: flex-start; padding-top: 10px; z-index: 100;
+    }
+    .nav-btn {
+      display: flex; flex-direction: column; align-items: center; gap: 4px; color: #8E8E93;
+      font-size: 10px; font-weight: 500; background: none; border: none; cursor: pointer; width: 20%;
+    }
+    .nav-btn ion-icon { font-size: 26px; }
+    .nav-btn.active { color: #0A84FF; }
   </style>
 </head>
 <body>
@@ -281,28 +192,19 @@
       
       <div class="search-box">
         <span class="search-icon"><ion-icon name="search-outline"></ion-icon></span>
-        <input type="text" id="yt-search-input" class="search-input" placeholder="Paste YouTube Link or Search..." onkeypress="handleSearch(event)">
+        <input type="text" class="search-input" placeholder="Paste YouTube Link or Search..." onkeypress="handleSearch(event)">
       </div>
 
-      <h2 class="section-title">Suggested Music</h2>
-      <p class="subtitle">Curated picks for you</p>
-      
       <div id="explore-list">
         <div class="card">
           <div class="media-card">
             <div class="thumb-box"><ion-icon name="musical-notes"></ion-icon></div>
             <div class="media-info">
               <div class="media-title">Lofi Hip Hop Mix</div>
-              <div class="media-artist">Lofi Girl • Chillhop</div>
+              <div class="media-artist">Lofi Girl</div>
             </div>
             <div class="btn-group">
-              <!-- Replaced dead live stream ID with permanent video ID -->
-              <button class="btn-pill" onclick="loadAndPlay('5qap5aO4i9A', 'Lofi Hip Hop Mix', 'Lofi Girl')">
-                <ion-icon name="play"></ion-icon> Play
-              </button>
-              <button class="btn-pill" style="padding: 8px 12px;" onclick="saveToLocal('Lofi Hip Hop Mix', 'Lofi Girl', 'musical-notes')">
-                <ion-icon name="download-outline"></ion-icon>
-              </button>
+              <button class="btn-pill" onclick="loadVideo('5qap5aO4i9A', 'Lofi Hip Hop Mix', 'Lofi Girl')"><ion-icon name="play"></ion-icon> Play</button>
             </div>
           </div>
         </div>
@@ -312,15 +214,10 @@
             <div class="thumb-box"><ion-icon name="radio"></ion-icon></div>
             <div class="media-info">
               <div class="media-title">Blinding Lights</div>
-              <div class="media-artist">The Weeknd • Synthwave</div>
+              <div class="media-artist">The Weeknd</div>
             </div>
             <div class="btn-group">
-              <button class="btn-pill" onclick="loadAndPlay('4NRXx6U8ABQ', 'Blinding Lights', 'The Weeknd')">
-                <ion-icon name="play"></ion-icon> Play
-              </button>
-              <button class="btn-pill" style="padding: 8px 12px;" onclick="saveToLocal('Blinding Lights', 'The Weeknd', 'radio')">
-                <ion-icon name="download-outline"></ion-icon>
-              </button>
+              <button class="btn-pill" onclick="loadVideo('4NRXx6U8ABQ', 'Blinding Lights', 'The Weeknd')"><ion-icon name="play"></ion-icon> Play</button>
             </div>
           </div>
         </div>
@@ -329,171 +226,191 @@
 
     <!-- NOW PLAYING PAGE -->
     <section id="now-playing" class="page">
-      <h1 class="header-title">Now Playing</h1>
+      <div class="now-playing-header">
+        <h1 class="header-title" style="margin-bottom: 4px;">Now Playing</h1>
+        <h2 id="np-title" class="section-title" style="margin:0; font-size: 18px;">Not Playing</h2>
+      </div>
       
-      <div class="player-wrapper">
-        <div id="player-placeholder" style="color: #8E8E93; text-align: center;">
-          <ion-icon name="play-circle-outline" style="font-size: 48px; margin-bottom: 8px;"></ion-icon>
-          <p style="font-size: 14px;">Select a track to play</p>
-        </div>
-        <iframe id="yt-player" style="display: none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <!-- Custom Full Width Video Block with Gesture Overlay -->
+      <div class="video-block">
+        <div id="yt-player"></div>
+        <div id="gesture-overlay"></div>
       </div>
 
-      <div style="text-align: center; margin-bottom: 24px;">
-        <h2 id="now-playing-title" class="section-title" style="margin: 0 0 4px 0;">Not Playing</h2>
-        <p id="now-playing-artist" class="subtitle">--</p>
-      </div>
-
-      <h2 class="section-title">Current Queue</h2>
-      <div class="card">
-        <div class="media-card">
-          <div class="thumb-box"><ion-icon name="list"></ion-icon></div>
-          <div class="media-info">
-            <div class="media-title">Active Stream</div>
-            <div class="media-artist">Playing directly from YouTube</div>
-          </div>
+      <!-- Custom Progress Bar -->
+      <div class="progress-container">
+        <input type="range" id="progress-bar" value="0" min="0" max="100" oninput="seekToBar(this.value)">
+        <div class="time-labels">
+          <span id="time-current">0:00</span>
+          <span id="time-total">0:00</span>
         </div>
       </div>
-    </section>
 
-    <!-- LOCAL FILES PAGE -->
-    <section id="local-files" class="page">
-      <h1 class="header-title">Local Files</h1>
-      <p class="subtitle">Saved offline tracks stored in your browser session</p>
-      <div id="local-files-list">
-        <div style="color: #8E8E93; text-align: center; margin-top: 60px;" id="no-files-msg">
-          <ion-icon name="cloud-offline-outline" style="font-size: 48px; margin-bottom: 12px;"></ion-icon>
-          <p>No saved files yet.<br>Tap download on any song to save it!</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- PLAYLISTS PAGE -->
-    <section id="playlists" class="page">
-      <h1 class="header-title">Playlists</h1>
-      <button class="btn-pill" style="width: 100%; padding: 14px; margin-bottom: 20px; font-size: 15px;">
-        <ion-icon name="add-circle-outline"></ion-icon> Create New Playlist
-      </button>
-      <div class="card">
-        <div class="media-card">
-          <div class="thumb-box" style="background: #0A84FF;"><ion-icon name="heart"></ion-icon></div>
-          <div class="media-info">
-            <div class="media-title">My Favorites</div>
-            <div class="media-artist">0 tracks</div>
-          </div>
-          <ion-icon name="chevron-forward" style="color: #48484A; font-size: 20px;"></ion-icon>
-        </div>
-      </div>
-    </section>
-
-    <!-- SETTINGS PAGE -->
-    <section id="settings" class="page">
-      <h1 class="header-title">Settings</h1>
-      <div class="card">
-        <div class="media-card">
-          <div class="thumb-box" style="border-radius: 50%;"><ion-icon name="person"></ion-icon></div>
-          <div class="media-info">
-            <div class="media-title">App Version</div>
-            <div class="media-artist">v1.1.1 (Fixed Videos)</div>
-          </div>
-        </div>
+      <!-- Custom Controls -->
+      <div class="media-controls">
+        <button class="ctrl-btn" onclick="skipTrack(-1)"><ion-icon name="play-skip-back"></ion-icon></button>
+        <button class="ctrl-btn" onclick="seekVideo(-10)"><ion-icon name="play-back"></ion-icon></button>
+        <button class="ctrl-btn play-pause-btn" onclick="togglePlay()"><ion-icon id="play-icon" name="play"></ion-icon></button>
+        <button class="ctrl-btn" onclick="seekVideo(10)"><ion-icon name="play-forward"></ion-icon></button>
+        <button class="ctrl-btn" onclick="skipTrack(1)"><ion-icon name="play-skip-forward"></ion-icon></button>
       </div>
     </section>
   </main>
 
-  <!-- Glassmorphic Bottom Navigation Bar -->
+  <!-- Navigation -->
   <nav>
-    <button class="nav-btn active" onclick="switchPage('explore', this)">
-      <ion-icon name="search"></ion-icon>
-      <span>Explore</span>
-    </button>
-    <button class="nav-btn" onclick="switchPage('playlists', this)">
-      <ion-icon name="albums"></ion-icon>
-      <span>Playlists</span>
-    </button>
-    <button class="nav-btn" onclick="switchPage('now-playing', this)">
-      <ion-icon name="play-circle"></ion-icon>
-      <span>Playing</span>
-    </button>
-    <button class="nav-btn" onclick="switchPage('local-files', this)">
-      <ion-icon name="arrow-down-circle"></ion-icon>
-      <span>Local Files</span>
-    </button>
-    <button class="nav-btn" onclick="switchPage('settings', this)">
-      <ion-icon name="cog"></ion-icon>
-      <span>Settings</span>
-    </button>
+    <button class="nav-btn active" onclick="switchPage('explore', this)"><ion-icon name="search"></ion-icon><span>Explore</span></button>
+    <button class="nav-btn" onclick="switchPage('now-playing', this)"><ion-icon name="play-circle"></ion-icon><span>Playing</span></button>
   </nav>
 
   <script>
-    // Tab Switching Logic
+    // Tab Logic
     function switchPage(pageId, btn) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      
       document.getElementById(pageId).classList.add('active');
       btn.classList.add('active');
     }
 
-    // Play YouTube Video Engine
-    function loadAndPlay(videoId, title, artist) {
-      const player = document.getElementById('yt-player');
-      const placeholder = document.getElementById('player-placeholder');
-      
-      placeholder.style.display = 'none';
-      player.style.display = 'block';
-      player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-      
-      document.getElementById('now-playing-title').innerText = title;
-      document.getElementById('now-playing-artist').innerText = artist;
+    // ==========================================
+    // YOUTUBE API & PLAYER LOGIC
+    // ==========================================
+    let player;
+    let isPlaying = false;
+    let progressTimer;
 
-      // Switch tab to Now Playing
-      const playingTabBtn = document.querySelectorAll('.nav-btn')[2];
-      switchPage('now-playing', playingTabBtn);
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('yt-player', {
+        height: '100%',
+        width: '100%',
+        playerVars: {
+          'controls': 0, // Hides native UI
+          'disablekb': 1,
+          'rel': 0,
+          'modestbranding': 1,
+          'playsinline': 1
+        },
+        events: {
+          'onStateChange': onPlayerStateChange
+        }
+      });
     }
 
-    // Handle YouTube Search Bar
-    function handleSearch(e) {
-      if (e.key === 'Enter') {
-        const query = e.target.value.trim();
-        if (!query) return;
-
-        // Extract video ID if user pasted a full YouTube URL
-        let videoId = query;
-        if (query.includes('v=')) {
-          videoId = query.split('v=')[1].split('&')[0];
-        } else if (query.includes('youtu.be/')) {
-          videoId = query.split('youtu.be/')[1].split('?')[0];
-        }
-
-        loadAndPlay(videoId, 'Search Result', 'YouTube Video');
-        e.target.value = '';
+    function loadVideo(videoId, title, artist) {
+      if(player && player.loadVideoById) {
+        player.loadVideoById(videoId);
+        document.getElementById('np-title').innerText = title;
+        
+        // Jump to player tab
+        switchPage('now-playing', document.querySelectorAll('.nav-btn')[1]);
       }
     }
 
-    // Local Files Management
-    function saveToLocal(title, artist, iconName) {
-      const msg = document.getElementById('no-files-msg');
-      if (msg) msg.remove();
-
-      const container = document.getElementById('local-files-list');
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <div class="media-card">
-          <div class="thumb-box"><ion-icon name="${iconName}"></ion-icon></div>
-          <div class="media-info">
-            <div class="media-title">${title}</div>
-            <div class="media-artist">${artist} • Offline Saved</div>
-          </div>
-          <span style="color: #30D158; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 4px;">
-            <ion-icon name="checkmark-circle"></ion-icon> Ready
-          </span>
-        </div>
-      `;
-      container.appendChild(card);
-      alert(`Saved "${title}" to Local Files!`);
+    function togglePlay() {
+      if(isPlaying) {
+        player.pauseVideo();
+      } else {
+        player.playVideo();
+      }
     }
+
+    function onPlayerStateChange(event) {
+      const playIcon = document.getElementById('play-icon');
+      if (event.data == YT.PlayerState.PLAYING) {
+        isPlaying = true;
+        playIcon.setAttribute('name', 'pause');
+        startProgressTimer();
+      } else {
+        isPlaying = false;
+        playIcon.setAttribute('name', 'play');
+        clearInterval(progressTimer);
+      }
+    }
+
+    function seekVideo(seconds) {
+      const current = player.getCurrentTime();
+      player.seekTo(current + seconds, true);
+    }
+
+    // Progress Bar Logic
+    function startProgressTimer() {
+      clearInterval(progressTimer);
+      progressTimer = setInterval(() => {
+        if(player && player.getCurrentTime) {
+          const current = player.getCurrentTime();
+          const duration = player.getDuration();
+          
+          document.getElementById('progress-bar').value = (current / duration) * 100;
+          document.getElementById('time-current').innerText = formatTime(current);
+          document.getElementById('time-total').innerText = formatTime(duration);
+        }
+      }, 500);
+    }
+
+    function seekToBar(value) {
+      const duration = player.getDuration();
+      const newTime = (value / 100) * duration;
+      player.seekTo(newTime, true);
+    }
+
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60);
+      const s = Math.floor(seconds % 60);
+      return `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
+    // Dummy skip track function for layout purposes
+    function skipTrack(direction) {
+      alert(direction > 0 ? "Skipping to next track..." : "Skipping to previous track...");
+    }
+
+    // ==========================================
+    // GESTURE OVERLAY LOGIC
+    // ==========================================
+    const overlay = document.getElementById('gesture-overlay');
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let lastTapTime = 0;
+    let tapTimeout;
+
+    overlay.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    overlay.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchEndX - touchStartX;
+
+      // Detect Swipe (> 50px movement)
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) skipTrack(-1); // Swipe right = Skip Back
+        else skipTrack(1);           // Swipe left = Skip Forward
+        return;
+      }
+
+      // Detect Tap vs Double Tap
+      const currentTime = new Date().getTime();
+      const tapLength = currentTime - lastTapTime;
+
+      if (tapLength < 300 && tapLength > 0) {
+        // It's a Double Tap!
+        clearTimeout(tapTimeout);
+        const rect = overlay.getBoundingClientRect();
+        const tapX = e.changedTouches[0].clientX - rect.left;
+        
+        if (tapX < rect.width / 2) {
+          seekVideo(-10); // Double tap left side
+        } else {
+          seekVideo(10);  // Double tap right side
+        }
+      } else {
+        // Single tap wait timer
+        tapTimeout = setTimeout(() => {
+          togglePlay();
+        }, 300);
+      }
+      lastTapTime = currentTime;
+    });
   </script>
 </body>
 </html>
