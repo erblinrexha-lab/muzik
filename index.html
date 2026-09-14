@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Muzik App</title>
+  
+  <!-- Apple-Style Icons (Ionicons) -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -99,8 +104,10 @@
       left: 16px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 16px;
+      font-size: 20px;
       color: #8E8E93;
+      display: flex;
+      align-items: center;
     }
 
     /* Apple Cards System */
@@ -137,7 +144,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
+      color: #FFFFFF;
+      font-size: 26px;
       flex-shrink: 0;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       position: relative;
@@ -180,6 +188,14 @@
       cursor: pointer;
       backdrop-filter: blur(10px);
       transition: background 0.2s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .btn-pill ion-icon {
+      font-size: 16px;
     }
 
     .btn-pill:active {
@@ -197,6 +213,9 @@
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
       border: 1px solid rgba(255, 255, 255, 0.1);
       margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     iframe {
@@ -219,7 +238,7 @@
       display: flex;
       justify-content: space-around;
       align-items: flex-start;
-      padding-top: 12px;
+      padding-top: 10px;
       z-index: 100;
     }
 
@@ -230,21 +249,26 @@
       gap: 4px;
       color: #8E8E93;
       font-size: 10px;
-      font-weight: 600;
+      font-weight: 500;
       background: none;
       border: none;
       cursor: pointer;
       width: 20%;
-      transition: color 0.2s ease, transform 0.2s ease;
+      transition: color 0.2s ease;
     }
 
-    .nav-btn .icon {
-      font-size: 22px;
+    .nav-btn ion-icon {
+      font-size: 26px;
+      margin-bottom: 2px;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .nav-btn.active {
       color: #0A84FF;
-      transform: translateY(-2px);
+    }
+
+    .nav-btn.active ion-icon {
+      transform: scale(1.1);
     }
   </style>
 </head>
@@ -256,7 +280,7 @@
       <h1 class="header-title">Explore</h1>
       
       <div class="search-box">
-        <span class="search-icon">🔍</span>
+        <span class="search-icon"><ion-icon name="search-outline"></ion-icon></span>
         <input type="text" id="yt-search-input" class="search-input" placeholder="Paste YouTube Link or Search..." onkeypress="handleSearch(event)">
       </div>
 
@@ -266,28 +290,36 @@
       <div id="explore-list">
         <div class="card">
           <div class="media-card">
-            <div class="thumb-box">🎵</div>
+            <div class="thumb-box"><ion-icon name="musical-notes"></ion-icon></div>
             <div class="media-info">
               <div class="media-title">Lofi Hip Hop Radio</div>
               <div class="media-artist">Lofi Girl • YouTube Live</div>
             </div>
             <div class="btn-group">
-              <button class="btn-pill" onclick="loadAndPlay('jfKfPfyJRdk', 'Lofi Hip Hop Radio', 'Lofi Girl')">Play</button>
-              <button class="btn-pill" onclick="saveToLocal('Lofi Hip Hop Radio', 'Lofi Girl', '🎵')">💾</button>
+              <button class="btn-pill" onclick="loadAndPlay('jfKfPfyJRdk', 'Lofi Hip Hop Radio', 'Lofi Girl')">
+                <ion-icon name="play"></ion-icon> Play
+              </button>
+              <button class="btn-pill" style="padding: 8px 12px;" onclick="saveToLocal('Lofi Hip Hop Radio', 'Lofi Girl', 'musical-notes')">
+                <ion-icon name="download-outline"></ion-icon>
+              </button>
             </div>
           </div>
         </div>
 
         <div class="card">
           <div class="media-card">
-            <div class="thumb-box">🎹</div>
+            <div class="thumb-box"><ion-icon name="radio"></ion-icon></div>
             <div class="media-info">
               <div class="media-title">Blinding Lights</div>
               <div class="media-artist">The Weeknd • Synthwave</div>
             </div>
             <div class="btn-group">
-              <button class="btn-pill" onclick="loadAndPlay('4NRXx6U8ABQ', 'Blinding Lights', 'The Weeknd')">Play</button>
-              <button class="btn-pill" onclick="saveToLocal('Blinding Lights', 'The Weeknd', '🎹')">💾</button>
+              <button class="btn-pill" onclick="loadAndPlay('4NRXx6U8ABQ', 'Blinding Lights', 'The Weeknd')">
+                <ion-icon name="play"></ion-icon> Play
+              </button>
+              <button class="btn-pill" style="padding: 8px 12px;" onclick="saveToLocal('Blinding Lights', 'The Weeknd', 'radio')">
+                <ion-icon name="download-outline"></ion-icon>
+              </button>
             </div>
           </div>
         </div>
@@ -299,18 +331,23 @@
       <h1 class="header-title">Now Playing</h1>
       
       <div class="player-wrapper">
-        <iframe id="yt-player" src="https://www.youtube.com/embed/jfKfPfyJRdk?enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <!-- Will load dynamically, starts empty -->
+        <div id="player-placeholder" style="color: #8E8E93; text-align: center;">
+          <ion-icon name="play-circle-outline" style="font-size: 48px; margin-bottom: 8px;"></ion-icon>
+          <p style="font-size: 14px;">Select a track to play</p>
+        </div>
+        <iframe id="yt-player" style="display: none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </div>
 
       <div style="text-align: center; margin-bottom: 24px;">
-        <h2 id="now-playing-title" class="section-title" style="margin: 0 0 4px 0;">Lofi Hip Hop Radio</h2>
-        <p id="now-playing-artist" class="subtitle">Lofi Girl</p>
+        <h2 id="now-playing-title" class="section-title" style="margin: 0 0 4px 0;">Not Playing</h2>
+        <p id="now-playing-artist" class="subtitle">--</p>
       </div>
 
       <h2 class="section-title">Current Queue</h2>
       <div class="card">
         <div class="media-card">
-          <div class="thumb-box">▶️</div>
+          <div class="thumb-box"><ion-icon name="list"></ion-icon></div>
           <div class="media-info">
             <div class="media-title">Active Stream</div>
             <div class="media-artist">Playing directly from YouTube</div>
@@ -324,21 +361,27 @@
       <h1 class="header-title">Local Files</h1>
       <p class="subtitle">Saved offline tracks stored in your browser session</p>
       <div id="local-files-list">
-        <p style="color: #8E8E93; text-align: center; margin-top: 40px;" id="no-files-msg">No saved files yet. Tap 💾 on any song in Explore to save it!</p>
+        <div style="color: #8E8E93; text-align: center; margin-top: 60px;" id="no-files-msg">
+          <ion-icon name="cloud-offline-outline" style="font-size: 48px; margin-bottom: 12px;"></ion-icon>
+          <p>No saved files yet.<br>Tap download on any song to save it!</p>
+        </div>
       </div>
     </section>
 
     <!-- PLAYLISTS PAGE -->
     <section id="playlists" class="page">
       <h1 class="header-title">Playlists</h1>
-      <button class="btn-pill" style="width: 100%; padding: 14px; margin-bottom: 20px; font-size: 15px;">+ Create New Playlist</button>
+      <button class="btn-pill" style="width: 100%; padding: 14px; margin-bottom: 20px; font-size: 15px;">
+        <ion-icon name="add-circle-outline"></ion-icon> Create New Playlist
+      </button>
       <div class="card">
         <div class="media-card">
-          <div class="thumb-box" style="background: #0A84FF;">❤️</div>
+          <div class="thumb-box" style="background: #0A84FF;"><ion-icon name="heart"></ion-icon></div>
           <div class="media-info">
             <div class="media-title">My Favorites</div>
             <div class="media-artist">0 tracks</div>
           </div>
+          <ion-icon name="chevron-forward" style="color: #48484A; font-size: 20px;"></ion-icon>
         </div>
       </div>
     </section>
@@ -348,10 +391,10 @@
       <h1 class="header-title">Settings</h1>
       <div class="card">
         <div class="media-card">
-          <div class="thumb-box" style="border-radius: 50%;">⚙️</div>
+          <div class="thumb-box" style="border-radius: 50%;"><ion-icon name="person"></ion-icon></div>
           <div class="media-info">
             <div class="media-title">App Version</div>
-            <div class="media-artist">v1.0.0 (Vercel Build)</div>
+            <div class="media-artist">v1.1.0 (Apple UI Update)</div>
           </div>
         </div>
       </div>
@@ -361,23 +404,23 @@
   <!-- Glassmorphic Bottom Navigation Bar -->
   <nav>
     <button class="nav-btn active" onclick="switchPage('explore', this)">
-      <span class="icon">🔍</span>
+      <ion-icon name="search"></ion-icon>
       <span>Explore</span>
     </button>
     <button class="nav-btn" onclick="switchPage('playlists', this)">
-      <span class="icon">📚</span>
+      <ion-icon name="albums"></ion-icon>
       <span>Playlists</span>
     </button>
     <button class="nav-btn" onclick="switchPage('now-playing', this)">
-      <span class="icon">▶️</span>
+      <ion-icon name="play-circle"></ion-icon>
       <span>Playing</span>
     </button>
     <button class="nav-btn" onclick="switchPage('local-files', this)">
-      <span class="icon">💾</span>
+      <ion-icon name="arrow-down-circle"></ion-icon>
       <span>Local Files</span>
     </button>
     <button class="nav-btn" onclick="switchPage('settings', this)">
-      <span class="icon">⚙️</span>
+      <ion-icon name="cog"></ion-icon>
       <span>Settings</span>
     </button>
   </nav>
@@ -395,6 +438,10 @@
     // Play YouTube Video Engine
     function loadAndPlay(videoId, title, artist) {
       const player = document.getElementById('yt-player');
+      const placeholder = document.getElementById('player-placeholder');
+      
+      placeholder.style.display = 'none';
+      player.style.display = 'block';
       player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
       
       document.getElementById('now-playing-title').innerText = title;
@@ -425,7 +472,7 @@
     }
 
     // Local Files Management
-    function saveToLocal(title, artist, emoji) {
+    function saveToLocal(title, artist, iconName) {
       const msg = document.getElementById('no-files-msg');
       if (msg) msg.remove();
 
@@ -434,12 +481,14 @@
       card.className = 'card';
       card.innerHTML = `
         <div class="media-card">
-          <div class="thumb-box">${emoji}</div>
+          <div class="thumb-box"><ion-icon name="${iconName}"></ion-icon></div>
           <div class="media-info">
             <div class="media-title">${title}</div>
             <div class="media-artist">${artist} • Offline Saved</div>
           </div>
-          <span style="color: #30D158; font-weight: 600; font-size: 13px;">Ready</span>
+          <span style="color: #30D158; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 4px;">
+            <ion-icon name="checkmark-circle"></ion-icon> Ready
+          </span>
         </div>
       `;
       container.appendChild(card);
