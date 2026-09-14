@@ -378,8 +378,9 @@
         <input type="text" id="yt-search-input" class="search-input" placeholder="Paste YouTube Link or Search..." onkeypress="handleSearch(event)">
       </div>
 
-      <h2 class="section-title">Suggested Music</h2>
-      <p class="subtitle">Curated picks for you</p>
+      <!-- ADDED IDs: so JavaScript can change these titles when you search -->
+      <h2 id="explore-section-title" class="section-title">Suggested Music</h2>
+      <p id="explore-section-subtitle" class="subtitle">Curated picks for you</p>
       
       <div id="explore-list">
         <div class="card">
@@ -419,7 +420,7 @@
         </div>
       </div>
     </section>
-
+    
     <!-- ==================================================
          HTML: PLAYING
          ================================================== -->
@@ -684,16 +685,73 @@
         const query = e.target.value.trim();
         if (!query) return;
 
-        let videoId = query;
+        // Extract video ID if user pasted a full YouTube URL
+        let videoId = null;
         if (query.includes('v=')) {
           videoId = query.split('v=')[1].split('&')[0];
         } else if (query.includes('youtu.be/')) {
           videoId = query.split('youtu.be/')[1].split('?')[0];
         }
 
-        loadAndPlay(videoId, 'Search Result', 'YouTube Video');
-        e.target.value = '';
+        // Display results instead of immediately playing
+        showSearchResults(query, videoId);
+        
+        // Hide the mobile keyboard after pressing Enter
+        e.target.blur();
       }
+    }
+
+    // Function to dynamically build the search results page
+    function showSearchResults(query, extractedId) {
+      const titleEl = document.getElementById('explore-section-title');
+      const subtitleEl = document.getElementById('explore-section-subtitle');
+      const listEl = document.getElementById('explore-list');
+
+      // Change the text to show we are searching
+      titleEl.innerText = "Search Results";
+      subtitleEl.innerText = `Showing results for "${query}"`;
+
+      // Show a loading text
+      listEl.innerHTML = `<p style="text-align:center; color:#8E8E93; margin-top: 40px;">Searching YouTube...</p>`;
+
+      // Simulate the time it takes to call a real API (800 milliseconds)
+      setTimeout(() => {
+        if (extractedId) {
+          // If they pasted a link, generate one card for that link
+          listEl.innerHTML = createCardHTML(extractedId, "Pasted YouTube Link", "Direct Video", "link");
+        } else {
+          // If they searched a word, generate simulated results
+          // (Later, this is where we will add the real YouTube Data API connection)
+          listEl.innerHTML = `
+            ${createCardHTML('5qap5aO4i9A', `${query} - Official Music Video`, 'YouTube Artist', 'musical-notes')}
+            ${createCardHTML('4NRXx6U8ABQ', `${query} (Live Performance)`, 'Vevo', 'mic')}
+            ${createCardHTML('jfKfPfyJRdk', `${query} (Instrumental / Lofi)`, 'Chill Beats', 'headset')}
+          `;
+        }
+      }, 800);
+    }
+
+    // Helper function to build HTML cards quickly without repeating code
+    function createCardHTML(id, title, artist, icon) {
+      return `
+        <div class="card">
+          <div class="media-card">
+            <div class="thumb-box"><ion-icon name="${icon}"></ion-icon></div>
+            <div class="media-info">
+              <div class="media-title">${title}</div>
+              <div class="media-artist">${artist}</div>
+            </div>
+            <div class="btn-group">
+              <button class="btn-pill" onclick="loadAndPlay('${id}', '${title}', '${artist}')">
+                <ion-icon name="play"></ion-icon> Play
+              </button>
+              <button class="btn-pill" style="padding: 8px 12px;" onclick="saveToLocal('${title}', '${artist}', '${icon}')">
+                <ion-icon name="download-outline"></ion-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
     }
 
     /* ==================================================
