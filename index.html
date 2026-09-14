@@ -8,11 +8,11 @@
   <!-- Apple-Style Icons (Ionicons) -->
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  
-  <!-- YouTube Iframe API for Custom Player -->
-  <script src="https://www.youtube.com/iframe_api"></script>
 
   <style>
+    /* =========================================
+       CSS: GLOBAL / SHARED
+       ========================================= */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -30,7 +30,6 @@
       overflow: hidden;
     }
 
-    /* Main Container & Layout */
     main {
       flex: 1;
       overflow-y: auto;
@@ -51,7 +50,6 @@
       to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    /* Typography & Headers */
     .header-title {
       font-size: 34px;
       font-weight: 800;
@@ -75,42 +73,6 @@
       font-size: 14px;
       margin-top: -12px;
       margin-bottom: 20px;
-    }
-
-    /* Search Bar with Glow Effect */
-    .search-box {
-      position: relative;
-      margin-bottom: 24px;
-    }
-
-    .search-input {
-      width: 100%;
-      background: rgba(28, 28, 30, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 16px;
-      padding: 14px 18px 14px 44px;
-      color: #FFF;
-      font-size: 16px;
-      outline: none;
-      backdrop-filter: blur(10px);
-      transition: all 0.25s ease;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    }
-
-    .search-input:focus {
-      border-color: #0A84FF;
-      box-shadow: 0 0 20px rgba(10, 132, 255, 0.3);
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 20px;
-      color: #8E8E93;
-      display: flex;
-      align-items: center;
     }
 
     /* Apple Cards System */
@@ -207,91 +169,84 @@
     }
 
     /* =========================================
-       NEW CUSTOM VIDEO PLAYER STYLES 
+       CSS: EXPLORE
        ========================================= */
-
-    /* Full width video block without rounded borders */
-    .video-block {
-      width: 100vw;
-      margin-left: -20px; /* Pulls it outside the main 20px padding to touch edges */
-      aspect-ratio: 16 / 9;
-      background: #000;
+    .search-box {
       position: relative;
-      margin-bottom: 20px;
-    }
-
-    #yt-player {
-      width: 100%;
-      height: 100%;
-      pointer-events: none; /* Prevents native YouTube clicks */
-    }
-
-    /* Invisible overlay to capture gestures */
-    #gesture-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 10;
-    }
-
-    /* Custom Progress Bar */
-    .progress-container {
       margin-bottom: 24px;
     }
 
-    .time-labels {
-      display: flex;
-      justify-content: space-between;
-      color: #8E8E93;
-      font-size: 12px;
-      margin-top: 8px;
-      font-weight: 500;
-    }
-
-    input[type=range] {
-      -webkit-appearance: none;
+    .search-input {
       width: 100%;
-      background: transparent;
-    }
-    input[type=range]:focus { outline: none; }
-    input[type=range]::-webkit-slider-runnable-track {
-      width: 100%; height: 6px; cursor: pointer;
-      background: rgba(255, 255, 255, 0.2); border-radius: 3px;
-    }
-    input[type=range]::-webkit-slider-thumb {
-      height: 16px; width: 16px; border-radius: 50%;
-      background: #FFFFFF; cursor: pointer; -webkit-appearance: none;
-      margin-top: -5px;
+      background: rgba(28, 28, 30, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 14px 18px 14px 44px;
+      color: #FFF;
+      font-size: 16px;
+      outline: none;
+      backdrop-filter: blur(10px);
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
-    /* Media Controls Below Progress Bar */
-    .media-controls {
+    .search-input:focus {
+      border-color: #0A84FF;
+      box-shadow: 0 0 20px rgba(10, 132, 255, 0.3);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: #8E8E93;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 0 10px;
-      margin-bottom: 30px;
     }
 
-    .ctrl-btn {
-      background: none;
-      border: none;
-      color: #FFFFFF;
-      font-size: 28px;
-      cursor: pointer;
+    /* =========================================
+       CSS: PLAYLISTS
+       ========================================= */
+    /* (Currently uses global styles) */
+
+    /* =========================================
+       CSS: PLAYING
+       ========================================= */
+    .player-wrapper {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #1C1C1E;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .ctrl-btn:active { opacity: 0.6; }
-    
-    .play-pause-btn {
-      font-size: 48px;
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
 
-    /* Glassmorphic Tab Bar */
+    /* =========================================
+       CSS: LOCAL FILES
+       ========================================= */
+    /* (Currently uses global styles) */
+
+    /* =========================================
+       CSS: SETTINGS
+       ========================================= */
+    /* (Currently uses global styles) */
+
+    /* =========================================
+       CSS: BOTTOM MENU
+       ========================================= */
     nav {
       position: fixed;
       bottom: 0;
@@ -342,7 +297,9 @@
 <body>
 
   <main>
-    <!-- EXPLORE PAGE -->
+    <!-- =========================================
+         HTML: EXPLORE
+         ========================================= -->
     <section id="explore" class="page active">
       <h1 class="header-title">Explore</h1>
       
@@ -393,39 +350,40 @@
       </div>
     </section>
 
-    <!-- REBUILT NOW PLAYING PAGE -->
+    <!-- =========================================
+         HTML: PLAYING
+         ========================================= -->
     <section id="now-playing" class="page">
-      <div style="text-align: center; margin-bottom: 24px;">
-        <h1 class="header-title" style="margin-bottom: 4px;">Now Playing</h1>
-        <h2 id="now-playing-title" class="section-title" style="margin: 0; font-size: 18px;">Not Playing</h2>
-      </div>
+      <h1 class="header-title">Now Playing</h1>
       
-      <!-- Video Block (Full Width, No Borders) -->
-      <div class="video-block">
-        <div id="yt-player"></div>
-        <div id="gesture-overlay"></div>
-      </div>
-
-      <!-- Scrollable/Pressable Progress Bar -->
-      <div class="progress-container">
-        <input type="range" id="progress-bar" value="0" min="0" max="100" oninput="seekToBar(this.value)">
-        <div class="time-labels">
-          <span id="time-current">0:00</span>
-          <span id="time-total">0:00</span>
+      <div class="player-wrapper">
+        <div id="player-placeholder" style="color: #8E8E93; text-align: center;">
+          <ion-icon name="play-circle-outline" style="font-size: 48px; margin-bottom: 8px;"></ion-icon>
+          <p style="font-size: 14px;">Select a track to play</p>
         </div>
+        <iframe id="yt-player" style="display: none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </div>
 
-      <!-- Controls Below Progress Bar -->
-      <div class="media-controls">
-        <button class="ctrl-btn" onclick="skipTrack(-1)"><ion-icon name="play-skip-back"></ion-icon></button>
-        <button class="ctrl-btn" onclick="seekVideo(-10)"><ion-icon name="play-back"></ion-icon></button>
-        <button class="ctrl-btn play-pause-btn" onclick="togglePlay()"><ion-icon id="play-icon" name="play-circle"></ion-icon></button>
-        <button class="ctrl-btn" onclick="seekVideo(10)"><ion-icon name="play-forward"></ion-icon></button>
-        <button class="ctrl-btn" onclick="skipTrack(1)"><ion-icon name="play-skip-forward"></ion-icon></button>
+      <div style="text-align: center; margin-bottom: 24px;">
+        <h2 id="now-playing-title" class="section-title" style="margin: 0 0 4px 0;">Not Playing</h2>
+        <p id="now-playing-artist" class="subtitle">--</p>
+      </div>
+
+      <h2 class="section-title">Current Queue</h2>
+      <div class="card">
+        <div class="media-card">
+          <div class="thumb-box"><ion-icon name="list"></ion-icon></div>
+          <div class="media-info">
+            <div class="media-title">Active Stream</div>
+            <div class="media-artist">Playing directly from YouTube</div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- LOCAL FILES PAGE -->
+    <!-- =========================================
+         HTML: LOCAL FILES
+         ========================================= -->
     <section id="local-files" class="page">
       <h1 class="header-title">Local Files</h1>
       <p class="subtitle">Saved offline tracks stored in your browser session</p>
@@ -437,7 +395,9 @@
       </div>
     </section>
 
-    <!-- PLAYLISTS PAGE -->
+    <!-- =========================================
+         HTML: PLAYLISTS
+         ========================================= -->
     <section id="playlists" class="page">
       <h1 class="header-title">Playlists</h1>
       <button class="btn-pill" style="width: 100%; padding: 14px; margin-bottom: 20px; font-size: 15px;">
@@ -455,7 +415,9 @@
       </div>
     </section>
 
-    <!-- SETTINGS PAGE -->
+    <!-- =========================================
+         HTML: SETTINGS
+         ========================================= -->
     <section id="settings" class="page">
       <h1 class="header-title">Settings</h1>
       <div class="card">
@@ -463,14 +425,16 @@
           <div class="thumb-box" style="border-radius: 50%;"><ion-icon name="person"></ion-icon></div>
           <div class="media-info">
             <div class="media-title">App Version</div>
-            <div class="media-artist">v1.2.0 (Custom Video Player)</div>
+            <div class="media-artist">v1.1.1 (Fixed Videos)</div>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Glassmorphic Bottom Navigation Bar -->
+  <!-- =========================================
+       HTML: BOTTOM MENU
+       ========================================= -->
   <nav>
     <button class="nav-btn active" onclick="switchPage('explore', this)">
       <ion-icon name="search"></ion-icon>
@@ -495,7 +459,9 @@
   </nav>
 
   <script>
-    // Tab Switching Logic
+    /* =========================================
+       JAVASCRIPT: BOTTOM MENU (TAB SWITCHING)
+       ========================================= */
     function switchPage(pageId, btn) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -504,164 +470,34 @@
       btn.classList.add('active');
     }
 
-    // ==========================================
-    // NEW YOUTUBE API & PLAYER LOGIC
-    // ==========================================
-    let player;
-    let isPlaying = false;
-    let progressTimer;
-
-    // This function automatically runs when the YouTube API script loads
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('yt-player', {
-        height: '100%',
-        width: '100%',
-        playerVars: {
-          'controls': 0, // Turns off native YouTube controls
-          'disablekb': 1, // Disables keyboard shortcuts on iframe
-          'rel': 0, // Removes related videos at end
-          'modestbranding': 1,
-          'playsinline': 1
-        },
-        events: {
-          'onStateChange': onPlayerStateChange
-        }
-      });
-    }
-
+    /* =========================================
+       JAVASCRIPT: PLAYING
+       ========================================= */
     function loadAndPlay(videoId, title, artist) {
-      if (player && player.loadVideoById) {
-        player.loadVideoById(videoId);
-      }
+      const player = document.getElementById('yt-player');
+      const placeholder = document.getElementById('player-placeholder');
       
-      // Update our custom Title UI
+      placeholder.style.display = 'none';
+      player.style.display = 'block';
+      player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      
       document.getElementById('now-playing-title').innerText = title;
+      document.getElementById('now-playing-artist').innerText = artist;
 
       // Switch tab to Now Playing
       const playingTabBtn = document.querySelectorAll('.nav-btn')[2];
       switchPage('now-playing', playingTabBtn);
     }
 
-    // Playback Controls
-    function togglePlay() {
-      if (!player || !player.getPlayerState) return;
-      if (player.getPlayerState() === YT.PlayerState.PLAYING) {
-        player.pauseVideo();
-      } else {
-        player.playVideo();
-      }
-    }
-
-    function seekVideo(seconds) {
-      if (!player || !player.getCurrentTime) return;
-      const current = player.getCurrentTime();
-      player.seekTo(current + seconds, true);
-    }
-
-    function skipTrack(direction) {
-      alert(direction > 0 ? "Skipping Forward (Next Track Logic goes here)" : "Skipping Back (Previous Track Logic goes here)");
-    }
-
-    // Update icons and progress based on Video State
-    function onPlayerStateChange(event) {
-      const playIcon = document.getElementById('play-icon');
-      if (event.data == YT.PlayerState.PLAYING) {
-        isPlaying = true;
-        playIcon.setAttribute('name', 'pause-circle');
-        startProgressTimer();
-      } else {
-        isPlaying = false;
-        playIcon.setAttribute('name', 'play-circle');
-        clearInterval(progressTimer);
-      }
-    }
-
-    // Progress Bar Logic
-    function startProgressTimer() {
-      clearInterval(progressTimer);
-      progressTimer = setInterval(() => {
-        if(player && player.getCurrentTime) {
-          const current = player.getCurrentTime();
-          const duration = player.getDuration();
-          
-          document.getElementById('progress-bar').value = (current / duration) * 100;
-          document.getElementById('time-current').innerText = formatTime(current);
-          document.getElementById('time-total').innerText = formatTime(duration);
-        }
-      }, 500); // Updates bar twice a second
-    }
-
-    function seekToBar(value) {
-      if (!player || !player.getDuration) return;
-      const duration = player.getDuration();
-      const newTime = (value / 100) * duration;
-      player.seekTo(newTime, true);
-    }
-
-    function formatTime(seconds) {
-      if (!seconds) return "0:00";
-      const m = Math.floor(seconds / 60);
-      const s = Math.floor(seconds % 60);
-      return `${m}:${s < 10 ? '0' : ''}${s}`;
-    }
-
-    // ==========================================
-    // GESTURE OVERLAY LOGIC
-    // ==========================================
-    const overlay = document.getElementById('gesture-overlay');
-    let touchStartX = 0;
-    let lastTapTime = 0;
-    let tapTimeout;
-
-    overlay.addEventListener('touchstart', e => {
-      touchStartX = e.changedTouches[0].screenX;
-    });
-
-    overlay.addEventListener('touchend', e => {
-      const touchEndX = e.changedTouches[0].screenX;
-      const diff = touchEndX - touchStartX;
-
-      // 1. Detect Swipe (Horizontal movement > 50px)
-      if (Math.abs(diff) > 50) {
-        if (diff > 0) skipTrack(-1); // Swiped Left to Right -> Skip Back
-        else skipTrack(1);           // Swiped Right to Left -> Skip Forward
-        return;
-      }
-
-      // 2. Detect Single Tap vs Double Tap
-      const currentTime = new Date().getTime();
-      const tapLength = currentTime - lastTapTime;
-
-      if (tapLength < 300 && tapLength > 0) {
-        // It is a Double Tap!
-        clearTimeout(tapTimeout); // Cancel the single tap pause/play
-        
-        // Figure out if they tapped the left side or right side of the video
-        const rect = overlay.getBoundingClientRect();
-        const tapX = e.changedTouches[0].clientX - rect.left;
-        
-        if (tapX < rect.width / 2) {
-          seekVideo(-10); // Double tapped left side
-        } else {
-          seekVideo(10);  // Double tapped right side
-        }
-      } else {
-        // Single tap wait timer
-        tapTimeout = setTimeout(() => {
-          togglePlay(); // Single tap -> Play/Pause
-        }, 300);
-      }
-      lastTapTime = currentTime;
-    });
-
-    // ==========================================
-    // EXISTING FUNCTIONS
-    // ==========================================
+    /* =========================================
+       JAVASCRIPT: EXPLORE (SEARCH)
+       ========================================= */
     function handleSearch(e) {
       if (e.key === 'Enter') {
         const query = e.target.value.trim();
         if (!query) return;
 
+        // Extract video ID if user pasted a full YouTube URL
         let videoId = query;
         if (query.includes('v=')) {
           videoId = query.split('v=')[1].split('&')[0];
@@ -674,6 +510,9 @@
       }
     }
 
+    /* =========================================
+       JAVASCRIPT: LOCAL FILES
+       ========================================= */
     function saveToLocal(title, artist, iconName) {
       const msg = document.getElementById('no-files-msg');
       if (msg) msg.remove();
@@ -696,6 +535,17 @@
       container.appendChild(card);
       alert(`Saved "${title}" to Local Files!`);
     }
+
+    /* =========================================
+       JAVASCRIPT: PLAYLISTS
+       ========================================= */
+    // (Currently no custom logic for playlists)
+
+    /* =========================================
+       JAVASCRIPT: SETTINGS
+       ========================================= */
+    // (Currently no custom logic for settings)
+
   </script>
 </body>
 </html>
